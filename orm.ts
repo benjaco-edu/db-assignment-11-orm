@@ -1,8 +1,9 @@
+import * as orm from './src/orm'; 
 export class Customer{
   static _id: string = "Customer_id";
   Customer_id: number; 
   name: string; 
-  async getOrders() /*: Promise<Order[]> */ { throw new Error("Not implemented")  }
+  async getOrders() : Promise<Order[]>  { return orm.query("(Order|Customer_id="+this.Customer_id+")")   }
   static _refs: string[] = ["Order"]
 }
 export class Order{
@@ -11,17 +12,17 @@ export class Order{
   date: string; 
   total: number; 
   Customer_id : Number;
-  async getCustomer() /*: Promise<Customer>*/ { throw new Error("Not implemented")  }
-  async getOrderLines() /*: Promise<OrderLine[]> */ { throw new Error("Not implemented")  }
+  async getCustomer() : Promise<Customer> { return orm.query("(Customer|Customer_id="+this.Customer_id+")")   }
+  async getOrderLines() : Promise<OrderLine[]>  { return orm.query("(OrderLine|Order_id="+this.Order_id+")")   }
   static _refs: string[] = ["OrderLine"]
 }
 export class OrderLine{
   static _id: string = "OrderLine_id";
   OrderLine_id: number; 
   Order_id : Number;
-  async getOrder() /*: Promise<Order>*/ { throw new Error("Not implemented")  }
+  async getOrder() : Promise<Order> { return orm.query("(Order|Order_id="+this.Order_id+")")   }
   Product_id : Number;
-  async getProduct() /*: Promise<Product>*/ { throw new Error("Not implemented")  }
+  async getProduct() : Promise<Product> { return orm.query("(Product|Product_id="+this.Product_id+")")   }
   count: number; 
   total: number; 
   static _refs: string[] = []

@@ -9,13 +9,13 @@ let schemaName:string = classdef.schemaName;
 
 let classes: string[] = classdef.entities.reduce((acc, val, index) => {acc[Object.keys(val)[0]]=index; return acc},{});
 
-let src:string = "";
+let src:string = "import * as orm from './src/orm'; \n";
 let sql:string = `CREATE DATABASE \`${schemaName}\`;\nUSE \`${schemaName}\`;\n`;
 
-let sqlTypes:object = {
+let sqlTypes: object = {
     "String": "TEXT",
     "Number": "INT"
-}
+};
 
 for (let className of Object.keys(classes)) {
     let referenced_to: string[] = [];
@@ -31,9 +31,8 @@ for (let className of Object.keys(classes)) {
         let val : string = classdef.entities[classes[className]][className][prop];
         // @ts-ignore
         if (val.startsWith("*")) {
-            // todo generate code to get list
             referenced_to.push(val.slice(1));
-            src += `  async get${val.slice(1)}s() /*: Promise<${val.slice(1)}[]> */ { throw new Error("Not implemented")  }\n`;
+            src += `  async get${val.slice(1)}s() : Promise<${val.slice(1)}[]>  { return orm.query("(${val.slice(1)}|${className}_id="+this.${className}_id+")")   }\n`;
 
         } else {
             // @ts-ignore
@@ -43,7 +42,7 @@ for (let className of Object.keys(classes)) {
             } else {
                 // todo generate code to get object
                 src += `  ${val}_id : Number;
-  async get${val}() /*: Promise<${val}>*/ { throw new Error("Not implemented")  }\n`;
+  async get${val}() : Promise<${val}> { return orm.query("(${val}|${val}_id="+this.${val}_id+")")   }\n`;
                 sql += `  \`${val}_id\` INT, \n`
             }
         }

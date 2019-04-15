@@ -109,7 +109,7 @@ export async function query(query: string): Promise<any> {
         );
     });
 
-    let dataset = convertToDesiredType(data, returntype)
+    let dataset = convertToDesiredType(data, returntype);
 
     return dataset;
 
