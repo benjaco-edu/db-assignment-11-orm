@@ -1,5 +1,10 @@
 import * as mysql from "mysql2";
-import * as model from "./../orm";
+
+let model;
+
+export function setModel(injectModel: any) {
+    model = injectModel;
+}
 
 
 let connection;

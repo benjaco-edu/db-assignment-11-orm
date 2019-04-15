@@ -1,4 +1,4 @@
-import * as orm from './src/orm'; 
+import * as orm from '../src/orm';
 export class Customer{
   static _id: string = "Customer_id";
   Customer_id: number; 

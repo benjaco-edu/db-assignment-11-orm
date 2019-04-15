@@ -1,14 +1,16 @@
 import * as orm from './orm';
-import {Customer, Order, OrderLine, Product} from "../orm";
 
-orm.connect({host: "127.0.0.1", user: "nodejs", password: "nodecode", database: "MicroShop"});
+// it is going to be generated
+import * as model from "../orm";
 
+orm.connect({host: "database_server", user: "nodejs", password: "nodecode", database: "MicroShop"});
+orm.setModel(model);
 
 (async function () {
 
 
     console.log("Customer return a collection of all Customers");
-    let customers : Customer[] = await orm.query("Customer");
+    let customers : model.Customer[] = await orm.query("Customer");
     console.log(customers);
     console.log("\n");
 
@@ -25,12 +27,12 @@ orm.connect({host: "127.0.0.1", user: "nodejs", password: "nodecode", database: 
     console.log("\n\n");
 
     console.log("(Customer|name='Joe') return a collection of all Customers named Joe.");
-    let joeCustomers : Customer[] = await orm.query("(Customer|name='Joe')");
+    let joeCustomers : model.Customer[] = await orm.query("(Customer|name='Joe')");
     console.log(joeCustomers);
     console.log("\n\n");
 
     console.log("(Customer|name='Joe').Order return a collection of all Joe's orders");
-    let joeOrders : Order[] = await orm.query("(Customer|name='Joe').Order");
+    let joeOrders : model.Order[] = await orm.query("(Customer|name='Joe').Order");
     console.log(joeOrders);
     console.log("\n");
 
@@ -42,7 +44,7 @@ orm.connect({host: "127.0.0.1", user: "nodejs", password: "nodecode", database: 
     console.log("\n\n");
 
     console.log("(Customer|name='Joe').Order.OrderLine.Product return a collection of all products in all of Joe's orders");
-    let products : Product[] = await orm.query("(Customer|name='Joe').Order.OrderLine.Product");
+    let products : model.Product[] = await orm.query("(Customer|name='Joe').Order.OrderLine.Product");
     console.log(products);
     console.log("\n\n");
 
