@@ -1,7 +1,7 @@
 import * as orm from './orm';
 import {Customer, Order, OrderLine, Product} from "../orm";
 
-orm.connect({host: "127.0.0.1", user: "foo", password: "bar", database: "MicroShop"});
+orm.connect({host: "127.0.0.1", user: "nodejs", password: "nodecode", database: "MicroShop"});
 
 
 (async function () {
